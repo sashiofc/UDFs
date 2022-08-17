@@ -1,0 +1,38 @@
+Function saFetchNumberCS(cCell As Range, ParamArray keyWordArr() As Variant) ' As Double
+    Dim FoundWord As String
+    On Error GoTo NotFound
+    'Case sensitive
+    For i = LBound(keyWordArr) To UBound(keyWordArr)
+            If InStr(1, cCell, keyWordArr(i), vbBinaryCompare) >= 1 Then
+                FoundWord = keyWordArr(i)                                                                                                       'Mid(cCell, InStr(1, cCell, keyWordArr(i), vbBinaryCompare), Len(keyWordArr(i)))
+                Exit For
+            End If
+    Next i
+    Dim NumStr As String
+    If Len(FoundWord) <> 0 And Not Application.WorksheetFunction.Search(FoundWord, cCell, 1) + Len(FoundWord) > Len(cCell) Then
+            For j = Application.WorksheetFunction.Search(FoundWord, cCell, 1) + Len(FoundWord) To Len(cCell)
+                    'Append if numbers are found
+                    If Mid(cCell, j, 1) Like "[0-9]" Then
+                            NumStr = NumStr & Mid(cCell, j, 1)
+                    'If no numbers are found, check if its a dot (decimal)
+                    Else
+                            If NumStr = "" Then
+                                    'Go and check next character
+                            ElseIf NumStr <> "" And Mid(cCell, j, 1) = "." Then
+                                    NumStr = NumStr & "."
+                            ElseIf NumStr <> "" And Mid(cCell, j, 1) <> "." Then
+                                    Exit For
+                            Else
+                            End If
+                    End If
+            Next j
+            saFetchNumberCS = CDbl(NumStr)
+    ElseIf Len(FoundWord) = 0 Then
+            GoTo NotFound
+    Else
+            saFetchNumberCS = "#Cell ends with the specified foundword & it is not followed by any number!"
+    End If
+    Exit Function
+NotFound:
+    saFetchNumberCS = "#Keyword not found"
+End Function
