@@ -4,7 +4,7 @@ Function saFetchNumberCS(cCell As Range, ParamArray keyWordArr() As Variant) ' A
     'Case sensitive
     For i = LBound(keyWordArr) To UBound(keyWordArr)
             If InStr(1, cCell, keyWordArr(i), vbBinaryCompare) >= 1 Then
-                FoundWord = keyWordArr(i)                                                                                                       'Mid(cCell, InStr(1, cCell, keyWordArr(i), vbBinaryCompare), Len(keyWordArr(i)))
+                FoundWord = keyWordArr(i)
                 Exit For
             End If
     Next i
