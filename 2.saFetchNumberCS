@@ -1,4 +1,4 @@
-Function saFetchNumberCS(cCell As Range, ParamArray keyWordArr() As Variant) ' As Double
+Function saFetchNumberCS(cCell As Range, ParamArray keyWordArr() As Variant) As Double
     Dim FoundWord As String
     On Error GoTo NotFound
     'Case sensitive
